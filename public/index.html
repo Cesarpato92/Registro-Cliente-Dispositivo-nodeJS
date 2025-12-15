@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de cliente - dispostivo - reparacion</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de cliente - dispostivo - reparacion</h1>
+        <form id="registroForm">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" name="cedula" required><br><br>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required><br><br>
+
+            <label for="marca">Marca del Dispositivo:</label>
+            <input type="text" id="marca" name="marca" required><br><br>
+
+            <label for="version">Modelo del Dispositivo:</label>
+            <input type="text" id="version" name="version" required><br><br>
+
+            <label for="tipo_reparacion">Reparación:</label>
+            <select id="tipo_reparacion" name="tipo_reparacion" required>
+                <option value="Pantalla">Pantalla</option>
+                <option value="Bateria">Batería</option>
+                <option value="Software">Software</option>
+                <option value="Otro">Otro</option>
+            </select><br><br>
+            <label for="tipo_password">Tipo de Password:</label>
+            <select id="tipo_password" name="tipo_password" required>
+                <option value="Sin Password">Sin Password</option>
+                <option value="Patron">Con Password</option>
+                <option value="PIN">Con Password</option>
+                <option value="Numeros / letras">Con Password</option>
+            </select><br><br>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password"><br><br>
+
+            <label for="comentarios">Comentarios:</label>
+            <textarea id="comentarios" name="comentarios"></textarea><br><br>
+
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+</body>
+</html>

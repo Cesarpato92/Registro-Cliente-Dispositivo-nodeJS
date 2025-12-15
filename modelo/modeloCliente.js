@@ -25,6 +25,11 @@ const cliente = {
     encontrarPorCedula: (cedula, callback) => {
         const sql = 'SELECT * FROM cliente WHERE cedula = ?';
         conexion.query(sql, [cedula], callback);
+    },
+
+    actualizarCliente: (cedula, nombre, email, telefono, callback) => {
+        const sql = 'UPDATE cliente SET nombre = ?, email = ?, telefono = ? WHERE cedula = ?';
+        conexion.query(sql, [nombre, email, telefono, cedula], callback);
     }
 };
 
