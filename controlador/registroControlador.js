@@ -13,13 +13,14 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
     const { cedula, nombre, email, telefono, marca, tipo_reparacion, tipo_password, password, comentarios_dispositivo, version, fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios_reparacion } = req.body;
 
     //validamos los datos recibidos
-    if (!cedula || !nombre || !email || !telefono || !marca || !version  || !precio_reparacion) {
+
+    if (!cedula || !nombre || !email || !telefono || !marca || !version || !precio_reparacion) {
         return res.status(400).json({ mensaje: 'Faltan datos obligatorios' });
     }
     if (isNaN(cedula) || isNaN(telefono) || isNaN(precio_reparacion)) {
         return res.status(400).json({ mensaje: 'Los campos cedula, telefono y precio deben ser numericos' });
     }
-    if (tipo_reparacion !== "Sin contraseña" && !password) {
+    if (tipo_password !== "Sin contraseña" && !password) {
         return res.status(400).json({ mensaje: 'La contraseña debe ser proporcionada' });
     }
 
@@ -28,7 +29,7 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
         if (error) {
             return res.status(500).json({ mensaje: 'Error al buscar el cliente: ' + error });
         }
-        
+
         // Función para manejar la creación del cliente
         const manejarCliente = (callback) => {
             if (resultadosCliente.length > 0) {
@@ -55,20 +56,26 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
             // Después de manejar el cliente, creamos el dispositivo
             dispositivo.crear(marca, tipo_reparacion, tipo_password, password, comentarios_dispositivo, cedula, version, (error, resultadosDispositivo) => {
                 if (error) {
-                    return res.status(500).json({ mensaje: 'Error al crear el dispositivo: ' + error });
+                    console.error("Error al crear dispositivo:", error);
+                    return res.status(500).json({ mensaje: 'Error al crear el dispositivo: ' + error.sqlMessage || error });
                 }
 
                 // obtenemos y guardamos el id_dispositivo
                 const id_dispositivo = resultadosDispositivo.insertId;
-                
+                console.log("Dispositivo creado. ID:", id_dispositivo);
+
                 // creamos la reparación con el id_dispositivo
-                reparacion.crear(id_dispositivo, fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios_reparacion, (error) => {
+                // Nota: El orden de argumentos debe coincidir con modeloReparacion.js: 
+                // (fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, id_dispositivo, callback)
+                reparacion.crear(fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios_reparacion, id_dispositivo, (error) => {
                     if (error) {
-                        return res.status(500).json({ mensaje: 'Error al crear la reparacion: ' + error });
+                        console.error("Error al crear reparación:", error);
+                        return res.status(500).json({ mensaje: 'Error al crear la reparacion: ' + error.sqlMessage || error });
                     }
-                    res.status(201).json({ 
+                    console.log("Reparación creada exitosamente");
+                    res.status(201).json({
                         mensaje: 'Registro completo creado correctamente',
-                        id_dispositivo: id_dispositivo 
+                        id_dispositivo: id_dispositivo
                     });
                 });
             });

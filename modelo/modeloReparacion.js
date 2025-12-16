@@ -12,9 +12,9 @@ const reparacion = {
      * @param {string} id_dispositivo - ID del dispositivo asociado a la reparacion
      * @param {function} callback - Funcion callback para manejar el resultado de la consulta
      */
-    crear: (id_dispositivo, fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, callback) => {
+    crear: (fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, id_dispositivo, callback) => {
         const sql = 'INSERT INTO reparacion (fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, id_dispositivo) VALUES (?, ?, ?, ?, ?, ?)';
-        conexion.query(sql, [id_dispositivo, fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios], callback);
+        conexion.query(sql, [fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, id_dispositivo], callback);
     }
 };
 

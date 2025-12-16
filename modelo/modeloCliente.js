@@ -9,12 +9,12 @@ const cliente = {
      * @param {string} cedula - Cedula del cliente
      * @param {string} nombre - Nombre del cliente
      * @param {string} email - Email del cliente
-     * @param {string} telefono - Telefono del cliente
+     * @param {string} celular - Celular del cliente
      */
 
-    crear: (cedula, nombre, email, telefono, callback) => {
-        const sql = 'INSERT INTO cliente (cedula, nombre, email, telefono) VALUES (?, ?, ?, ?)';
-        conexion.query (sql, [cedula, nombre, email, telefono], callback);
+    crear: (cedula, nombre, email, celular, callback) => {
+        const sql = 'INSERT INTO cliente (cedula, nombre, email, celular) VALUES (?, ?, ?, ?)';
+        conexion.query(sql, [cedula, nombre, email, celular], callback);
     },
 
     /**
@@ -27,9 +27,9 @@ const cliente = {
         conexion.query(sql, [cedula], callback);
     },
 
-    actualizarCliente: (cedula, nombre, email, telefono, callback) => {
-        const sql = 'UPDATE cliente SET nombre = ?, email = ?, telefono = ? WHERE cedula = ?';
-        conexion.query(sql, [nombre, email, telefono, cedula], callback);
+    actualizarCliente: (cedula, nombre, email, celular, callback) => {
+        const sql = 'UPDATE cliente SET nombre = ?, email = ?, celular = ? WHERE cedula = ?';
+        conexion.query(sql, [nombre, email, celular, cedula], callback);
     }
 };
 

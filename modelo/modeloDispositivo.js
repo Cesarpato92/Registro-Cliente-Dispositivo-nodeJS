@@ -13,7 +13,7 @@ const dispositivo = {
      * @param {string} version - Version del dispositivo
      */
     crear: (marca, tipo_reparacion, tipo_password, password, comentarios, id_cliente, version, callback) => {
-        const sql = 'INSERT INTO dispositivo (marca, tipo_reparacion, tipo_password, password, comentarios, id_cliente, version) VALUES (?, ?, ?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO dispositivo (marca, tipo_reparacion, tipo_contraseña, contraseña, comentarios, id_cliente, version) VALUES (?, ?, ?, ?, ?, ?, ?)';
         db.query(sql, [marca, tipo_reparacion, tipo_password, password, comentarios, id_cliente, version], callback);
     },
     /**

@@ -1,9 +1,9 @@
 function validarFormulario(cedula, nombre, email, telefono, marca, version, tipo_password, password, precio_reparacion, comentarios_dispositivo) {
-    
+
 
     if (!cedula || !nombre || !email || !telefono || !marca || !version || !precio_reparacion) {
         return ('Por favor, complete todos los campos obligatorios.');
-        
+
     }
     if (isNaN(cedula) || isNaN(telefono) || isNaN(precio_reparacion)) {
         return ('Los campos cédula, teléfono y precio deben ser numéricos.');
@@ -13,9 +13,24 @@ function validarFormulario(cedula, nombre, email, telefono, marca, version, tipo
     }
     return null;
 }
+function limpiarCampos() {
+    document.getElementById('cedula').value = '';
+    document.getElementById('nombre').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('telefono').value = '';
+    document.getElementById('marca').value = '';
+    document.getElementById('version').value = '';
+    document.getElementById('tipo_reparacion').value = '';
+    document.getElementById('tipo_password').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('precio_reparacion').value = '';
+    document.getElementById('comentarios').value = '';
+    //document.getElementById('registroMensaje').textContent = '';
+
+}
 
 // manejador del evento de envio del formulario
-document.getElementById('registroForm').addEventListener('submit', function(event) {
+document.getElementById('registroForm').addEventListener('submit', function (event) {
     event.preventDefault(); // prevenir el envio del formulario
 
     //obtenemos los valores de los imputs
@@ -45,14 +60,11 @@ document.getElementById('registroForm').addEventListener('submit', function(even
         mensaje.textContent = errorMensaje;
         return;
     }
-    if (!password && tipo_password === "Sin contraseña") {
-        password = "Sin contraseña";
-    }
+    console.log("Datos validados correctamente", tipo_password);
 
-    try
-    {
+    try {
         // Enviar los datos al servidor mediante fetch API
-        fetch('/registro', {
+        fetch('/api/registro', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,19 +87,20 @@ document.getElementById('registroForm').addEventListener('submit', function(even
                 comentarios_tecnico
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.mensaje.includes('correctamente')) {
-                mensaje.style.color = 'green';
-            } else {
+            .then(response => response.json())
+            .then(data => {
+                if (data.mensaje.includes('correctamente')) {
+                    mensaje.style.color = 'green';
+                    limpiarCampos();
+                } else {
+                    mensaje.style.color = 'red';
+                }
+                mensaje.textContent = data.mensaje;
+            })
+            .catch(error => {
                 mensaje.style.color = 'red';
-            }
-            mensaje.textContent = data.mensaje;
-        })
-        .catch(error => {
-            mensaje.style.color = 'red';
-            mensaje.textContent = 'Error al conectar con el servidor: ' + error;
-        });
+                mensaje.textContent = 'Error al conectar con el servidor: ' + error;
+            });
     } catch (error) {
         mensaje.style.color = 'red';
         mensaje.textContent = 'Error inesperado: ' + error;
