@@ -63,15 +63,14 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
 
                 // obtenemos y guardamos el id_dispositivo
                 const id_dispositivo = resultadosDispositivo.insertId;
-                console.log("Dispositivo creado. ID:", id_dispositivo);
 
                 // creamos la reparación con el id_dispositivo
                 reparacion.crear(fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios_reparacion, id_dispositivo, (error) => {
                     if (error) {
-                        console.error("Error al crear reparación:", error);
+
                         return res.status(500).json({ mensaje: 'Error al crear la reparacion: ' + error.sqlMessage || error });
                     }
-                    console.log("Reparación creada exitosamente");
+
                     res.status(201).json({
                         mensaje: 'Registro completo creado correctamente',
                         id_dispositivo: id_dispositivo
@@ -90,13 +89,13 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
  */
 exports.buscarClientePorCedula = (req, res) => {
     const { cedula } = req.params;
-    console.log('Buscando cliente con cedula:', cedula);
+
     cliente.encontrarPorCedula(cedula, (error, resultados) => {
         if (error) {
-            console.error('Error al buscar cliente:', error);
+
             return res.status(500).json({ mensaje: 'Error al buscar el cliente: ' + error });
         }
-        console.log('Resultados:', resultados);
+
         if (resultados.length > 0) {
             res.json(resultados[0]);
         } else {
