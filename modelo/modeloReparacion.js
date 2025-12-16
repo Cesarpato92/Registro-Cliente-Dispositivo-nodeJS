@@ -1,4 +1,4 @@
-const conexion = requere('../config/config-db');
+const conexion = require('../config/config-db');
 
 // Este archivo contiene las funciones que interactuan con la tabla reparacion de la DB
 const reparacion = {

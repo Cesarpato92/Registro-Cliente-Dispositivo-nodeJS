@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de cliente - dispostivo - reparacion</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -22,7 +23,13 @@
             <input type="text" id="telefono" name="telefono" required><br><br>
 
             <label for="marca">Marca del Dispositivo:</label>
-            <input type="text" id="marca" name="marca" required><br><br>
+            <select id="marca" name="marca" required>
+                <option value="Apple">Apple</option>
+                <option value="Samsung">Samsung</option>
+                <option value="Huawei">Huawei</option>
+                <option value="Xiaomi">Xiaomi</option>
+                
+            </select><br><br>
 
             <label for="version">Modelo del Dispositivo:</label>
             <input type="text" id="version" name="version" required><br><br>
@@ -44,11 +51,15 @@
             <label for="password">Password:</label>
             <input type="text" id="password" name="password"><br><br>
 
+            <label for="precio_reparacion">Precio de la Reparación:</label>
+            <input type="number" id="precio_reparacion" name="precio_reparacion" required><br><br>
+
             <label for="comentarios">Comentarios:</label>
-            <textarea id="comentarios" name="comentarios"></textarea><br><br>
+            <textarea id="comentarios" name="comentarios" required></textarea><br><br>
 
             <button type="submit">Registrar</button>
         </form>
+        <p id="registroMensaje" class="mensaje"></p>
     </div>
 </body>
 </html>

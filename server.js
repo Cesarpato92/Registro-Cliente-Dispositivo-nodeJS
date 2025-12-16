@@ -1,23 +1,25 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const rutas = require('./rutas/rutas');
 
-// creamos la aplicacion de express
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Usa variables de entorno si existen
 
-// configuramos el middleware
-app.use(cors()); // habilitamos CORS
-app.use(bodyParser.json()); // para parsear solicitudes con JSON
-app.use(express.static(path.join(__dirname, 'public'))); // para servir archivos estaticos
+// Middleware
+app.use(cors());
+app.use(express.json()); // Reemplaza body-parser
+app.use(express.static(path.join(__dirname, 'public')));
 
-//RUTAS
-
+// Rutas
 app.use('/api', rutas);
 
-// iniciamos el servidor
+// Manejo de 404 (Ruta no encontrada)
+app.use((req, res) => {
+    res.status(404).json({ mensaje: "La ruta solicitada no existe" });
+});
+
+// Iniciar servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
