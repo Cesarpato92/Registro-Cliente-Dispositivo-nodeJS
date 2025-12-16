@@ -33,6 +33,7 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
         // Función para manejar la creación del cliente
         const manejarCliente = (callback) => {
             if (resultadosCliente.length > 0) {
+
                 // El cliente ya existe, actualizamos su informacion
                 cliente.actualizarCliente(cedula, nombre, email, telefono, (error) => {
                     if (error) {
@@ -65,8 +66,6 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
                 console.log("Dispositivo creado. ID:", id_dispositivo);
 
                 // creamos la reparación con el id_dispositivo
-                // Nota: El orden de argumentos debe coincidir con modeloReparacion.js: 
-                // (fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios, id_dispositivo, callback)
                 reparacion.crear(fecha_ingreso, estado, costo_repuesto, precio_reparacion, comentarios_reparacion, id_dispositivo, (error) => {
                     if (error) {
                         console.error("Error al crear reparación:", error);
@@ -80,5 +79,28 @@ exports.registroClienteDispositivoReparacion = (req, res) => {
                 });
             });
         });
+    });
+};
+
+/**
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @returns
+ */
+exports.buscarClientePorCedula = (req, res) => {
+    const { cedula } = req.params;
+    console.log('Buscando cliente con cedula:', cedula);
+    cliente.encontrarPorCedula(cedula, (error, resultados) => {
+        if (error) {
+            console.error('Error al buscar cliente:', error);
+            return res.status(500).json({ mensaje: 'Error al buscar el cliente: ' + error });
+        }
+        console.log('Resultados:', resultados);
+        if (resultados.length > 0) {
+            res.json(resultados[0]);
+        } else {
+            res.status(404).json({ mensaje: 'Cliente no encontrado' });
+        }
     });
 };

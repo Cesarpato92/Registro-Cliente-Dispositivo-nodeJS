@@ -19,7 +19,10 @@
                 </label><br><br>
 
                 <label for="cedula">Cédula:</label>
-                <input type="text" id="cedula" name="cedula" required><br><br>
+                <input type="number" id="cedula" name="cedula" required>
+                <button type="button" class="buscar" id="buscar">Buscar</button>
+                <button type="reset" onclick="limpiarCampos()" id="limpiar">Limpiar</button>
+                <br><br>
 
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required><br><br>
@@ -29,6 +32,7 @@
 
                 <label for="telefono">Teléfono:</label>
                 <input type="number" id="telefono" name="telefono" required><br><br>
+                <p id="clienteMensaje"></p>
             </div>
             <div class="grupo">
                 <label for="Datos del Dispositivo">
@@ -76,6 +80,7 @@
             <div class="boton-container">
                 <button type="submit">Registrar</button>
             </div>
+
         </form>
         <p id="registroMensaje" class="mensaje"></p>
     </div>

@@ -25,7 +25,14 @@ function limpiarCampos() {
     document.getElementById('password').value = '';
     document.getElementById('precio_reparacion').value = '';
     document.getElementById('comentarios').value = '';
-    //document.getElementById('registroMensaje').textContent = '';
+    document.getElementById('cedula').disabled = false;
+    document.getElementById('buscar').disabled = false;
+    document.getElementById('clienteMensaje').textContent = '';
+    setTimeout(function () {
+        document.getElementById('registroMensaje').textContent = '';
+    }, 5000);
+
+
 
 }
 
@@ -50,6 +57,7 @@ document.getElementById('registroForm').addEventListener('submit', function (eve
     const fecha_ingreso = new Date().toISOString().split('T')[0];
     const estado = "En proceso"; // Valor predeterminado
     const comentarios_tecnico = ""; // Valor predeterminado
+    const clienteMensaje = document.getElementById('clienteMensaje');
 
 
     // Validar los datos del formulario
@@ -60,7 +68,6 @@ document.getElementById('registroForm').addEventListener('submit', function (eve
         mensaje.textContent = errorMensaje;
         return;
     }
-    console.log("Datos validados correctamente", tipo_password);
 
     try {
         // Enviar los datos al servidor mediante fetch API
@@ -105,4 +112,42 @@ document.getElementById('registroForm').addEventListener('submit', function (eve
         mensaje.style.color = 'red';
         mensaje.textContent = 'Error inesperado: ' + error;
     }
+});
+
+// Event listener para el botón buscar cliente
+document.querySelector('.buscar').addEventListener('click', function () {
+    const cedula = document.getElementById('cedula').value;
+    if (!cedula) {
+        alert('Por favor, ingrese la cédula');
+        return;
+    }
+    fetch('/api/buscar-cliente/' + cedula)
+        .then(response => response.json())
+        .then(data => {
+            if (data.mensaje) {
+                clienteMensaje.style.color = 'red';
+                clienteMensaje.textContent = data.mensaje;
+                setTimeout(function () {
+                    document.getElementById('limpiar').click();
+                }, 3000);
+
+            } else {
+                clienteMensaje.style.color = 'green';
+                clienteMensaje.textContent = 'Se actualizaran los datos del cliente';
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('email').value = data.email;
+                document.getElementById('telefono').value = data.celular;
+
+                // Deshabilitar campo clave y botón de búsqueda
+                const inputCedula = document.getElementById('cedula');
+                const btnBuscar = document.getElementById('buscar');
+
+                if (inputCedula) inputCedula.disabled = true;
+                if (btnBuscar) btnBuscar.disabled = true;
+
+            }
+        })
+        .catch(error => {
+            alert('Error al buscar el cliente: ' + error);
+        });
 });
